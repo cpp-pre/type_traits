@@ -2,6 +2,7 @@
  * Copyright 2014, Joel FALCOU <joel.falcou@lri.fr>
  * Copyright 2016, Daniel Friedrich <daniel@duerrenbuehl.de> 
  * Copyright 2016, Damien BUHL <damien.buhl@lecbna.org>
+ * Copyright 2023, Tim Ebbeke <tim06tr@gmail.com>
  *
  */
 #ifndef PRE_TYPE_TRAITS_DETAIL_FUNCTION_TRAITS_IMPL_HPP
