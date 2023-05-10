@@ -72,6 +72,11 @@ namespace pre { namespace type_traits { namespace detail {
     {};
 
     template<typename ClassType, typename ReturnType, typename... Args>
+    struct function_traits_impl<ReturnType(ClassType::*)(Args...)> 
+      : public function_traits_api<ReturnType, Args...>
+    {};
+
+    template<typename ClassType, typename ReturnType, typename... Args>
     struct function_traits_impl_member<ReturnType(ClassType::*)(Args...)> 
       : public function_traits_api<ReturnType, ClassType, Args...>
     {};
