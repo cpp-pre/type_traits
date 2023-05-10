@@ -42,6 +42,42 @@ BOOST_AUTO_TEST_CASE (function_traits_test_lambda) {
     BOOST_ASSERT_MSG(std_function(true, int{42}, double{3.14}, std::string{"Hello World"}) == 23 , " call to std::funtion is wrong");
 }
 
+BOOST_AUTO_TEST_CASE (function_traits_test_mutable_lambda) {
+
+    int capture_int       = 42;
+    auto my_lambda = [capture_int](bool arg_0, int arg_1, double arg_2, std::string arg_3) mutable {
+                            return ++capture_int ;
+                        };
+
+    typedef pre::type_traits::function_traits<decltype(my_lambda)> my_lambda_types;
+
+    auto is_same =  std::is_same< my_lambda_types::result_type, int>::value;
+
+    BOOST_ASSERT_MSG(my_lambda_types::arity == 4 , " lambda arity is wrong");
+    BOOST_ASSERT_MSG(is_same, " return type wrong");
+
+    is_same =  std::is_same<my_lambda_types::arg<0>, bool>::value;
+    BOOST_ASSERT_MSG(is_same, " argument ist not as expected");
+
+    is_same =  std::is_same<my_lambda_types::arg<1>, int>::value;
+    BOOST_ASSERT_MSG(is_same, " argument ist not as expected");
+
+    is_same =  std::is_same<my_lambda_types::arg<2>, double>::value;
+    BOOST_ASSERT_MSG(is_same, " argument ist not as expected");
+
+    is_same =  std::is_same<my_lambda_types::arg<3>, std::string>::value;
+    BOOST_ASSERT_MSG(is_same, " argument ist not as expected");
+
+    typedef std::function<int(bool, int, double, std::string)> expected_function_type;
+    is_same = std::is_same<my_lambda_types::function_type , expected_function_type>::value;
+    BOOST_ASSERT_MSG(is_same, " function type  ist not as expected");
+
+    auto std_function = pre::functional::to_std_function(my_lambda);
+
+    BOOST_ASSERT_MSG(std_function(true, int{42}, double{3.14}, std::string{"Hello World"}) == 43 , " call to std::funtion is wrong");
+}
+
+
 
 BOOST_AUTO_TEST_CASE (function_traits_test_lambda_copy_captures) {
 
